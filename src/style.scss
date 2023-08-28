@@ -1,0 +1,50 @@
+
+//стили для оболочки страницы
+body {
+  background-color: rgba(250, 219, 227, 1);
+}
+
+main {
+  width: 50%;
+  background-color: white;
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 5%;
+  padding: 2%;
+  font-family: 'Jost', sans-serif;
+}
+
+//сделала класс, чтобы используя его можно было отступы сделать у всех одинаковыми
+.indent {
+  padding-bottom: 25px;
+}
+
+//стили для бегунка
+.input {
+  width: 135px;
+}
+
+.slider {
+  accent-color: rgba(238, 68, 95, 1);
+}
+
+.numbers {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+//стили для кнопок
+button {
+  background-color: rgba(238, 68, 95, 1);
+  border: 2px solid rgba(238, 68, 95, 1);
+  border-radius: 20px;
+  width: 25%;
+  padding: 10px;
+  color: white;
+}
+
+button:hover {
+  background-color: white;
+  color: rgba(238, 68, 95, 1);
+}
