@@ -1,11 +1,10 @@
-
 //стили для оболочки страницы
 body {
   background-color: rgba(250, 219, 227, 1);
 }
 
 main {
-  width: 50%;
+  width: 60%; //изменила на 60%, можно попробовать 70%
   background-color: white;
   border-radius: 20px;
   margin: auto;
@@ -47,4 +46,22 @@ button {
 button:hover {
   background-color: white;
   color: rgba(238, 68, 95, 1);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+//стили для заголовков
+h3 {
+  color: rgba(238, 68, 95, 1);
+}
+
+//стили для массивов вопросов и бегунков
+.question {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
 }
