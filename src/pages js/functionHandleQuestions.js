@@ -1,4 +1,3 @@
-
 //Функция для вывода всех вопросов и бегунков на страницу
 export function handleQuestions() {
 

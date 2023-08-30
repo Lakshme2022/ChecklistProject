@@ -48,6 +48,7 @@ button:hover {
   color: rgba(238, 68, 95, 1);
 }
 
+//добавила стиль для кнопок
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -62,6 +63,6 @@ h3 {
 //стили для массивов вопросов и бегунков
 .question {
   display: flex;
-  align-items: baseline;
   justify-content: space-between;
+  align-items: baseline;
 }
