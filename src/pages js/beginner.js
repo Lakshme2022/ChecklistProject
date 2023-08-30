@@ -32,7 +32,7 @@ const questions = [
 ]
 
 //Импортируем функцию handleQuestions() для вывода на страницу массива объектов
-import { handleQuestions } from "./handleQuestionsFunction.js";
+import { handleQuestions } from "./functionHandleQuestions.js";
 
 //Отрисовываем страницу
 document.addEventListener("DOMContentLoaded", function () {
