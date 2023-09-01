@@ -1,3 +1,4 @@
+import data from './data.json'
 
 const content = document.getElementById('content');
 
@@ -9,29 +10,6 @@ function range() {
         '</div>';
 }
 
-function saveToStorage(data) {
-    window.localStorage.setItem('checklist_data', JSON.stringify(data));
-}
-
-function loadFromStorage() {
-    const points = window.localStorage.getItem('checklist_data')
-    if (points) {
-        return JSON.parse(points)
-    }
-    return {
-        "beginner": [1, 1, 1, 1, 1, 1
-        ],
-        "trainee": [1, 1, 1, 1, 1, 1, 1, 1, 1
-        ],
-        "junior": [1, 1, 1, 1, 1
-        ]
-    };
-}
-
-function getAllPoints() {
-    const a = Array.from( document.getElementsByClassName('slider'));
-    return a.map((e) => Number(e.value));
-}
 
 document.addEventListener("DOMContentLoaded", function (event) {
     content.innerHTML = range();
