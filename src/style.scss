@@ -34,6 +34,13 @@ main {
   align-items: center;
 }
 
+//стили для контейнера с кнопками
+.controlbut {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
 //стили для кнопок
 button {
   background-color: rgba(238, 68, 95, 1);
