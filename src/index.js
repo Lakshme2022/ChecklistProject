@@ -29,70 +29,20 @@ firstButton.addEventListener('click', renderCards)
 
 function renderCards() {
 
-    const container = document.querySelector('.container')
-    const arrKeyData = Object.keys(data)
-    let count = 0
-    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+    //КОД ОСТАЛЬНЫХ УЧАСТНИЦ ПРОЕКТА - слайдер из страниц с вопросами 
 
-
-    function createQuestion(question) {
-        const div = document.createElement('div')
-        div.classList.add('item')
-        const template = `
-    <div class='wrapper-content'>
-    <div class="question">${question}</div>
-    <div class='range'>0</div>
-    </div>
-    
-    `
-        div.insertAdjacentHTML('beforeend', template)
-        return div
+    //Катин код
+    function range() {
+        return '<div class="input indent">' +
+            '<input type="range" min="1" max="5" class="slider" value="1">' +
+            '<div class="numbers"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>' +
+            '</div>' +
+            '</div>';
     }
 
 
-    function createCards(title, arrQuestion) {
-        container.innerHTML = ''
-        const createDivContainerCard = document.querySelector('div')
-        createDivContainerCard.insertAdjacentHTML('beforeend', `<h2>${title}</h2>`)
-        arrQuestion.forEach(item => {
-            const divQuestion = createQuestion(item)
-            container.appendChild(divQuestion)
-        })
-        container.insertAdjacentHTML('beforeend', "<button class='nextCardsBtn' >SEND</button>")
-    }
+    document.addEventListener("DOMContentLoaded", function (event) {
+        content.innerHTML = range();
+    });
 
-    container.addEventListener('click', (e) => {
-        if (e.target.classList.contains('nextCardsBtn')) {
-            saveObectLocalStorage()
-            createNextCard()
-        }
-    })
-
-    function createNextCard() {
-        if (arrKeyData.length <= count) {
-            return
-        }
-        count += 1
-        createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
-    }
 }
-
-//renderCards();
-
-
-function result() {
-    ///результат считать с локал сторедж
-}
-
-/*function range() {
-    return '<div class="input indent">' +
-        '<input type="range" min="1" max="5" class="slider" value="1">' +
-        '<div class="numbers"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>' +
-        '</div>' +
-        '</div>';
-}
-
-
-document.addEventListener("DOMContentLoaded", function (event) {
-    content.innerHTML = range();
-});*/
