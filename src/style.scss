@@ -1,11 +1,10 @@
-
 //стили для оболочки страницы
 body {
   background-color: rgba(250, 219, 227, 1);
 }
 
 main {
-  width: 50%;
+  width: 60%; //увеличила ширину до 60% - страницы с вопросами лучше смотрятся
   background-color: white;
   border-radius: 20px;
   margin: auto;
@@ -34,7 +33,47 @@ main {
   align-items: center;
 }
 
+//добавила стили для заголовков и остальных элементов
+h1 {
+  font-size: 30px;
+}
+
+h1,
+p,
+.inputField,
+input::placeholder {
+  font-family: 'Jost', sans-serif;
+}
+
+.pinkText {
+  color: rgba(238, 68, 95, 1);
+}
+
+//добавила стили для инпутов
+.form {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+}
+
+.inputField {
+  border-radius: 20px;
+  width: 30%;
+  padding: 5px;
+  border: none;
+  background-color: rgb(239, 235, 235);
+}
+
+.inputField:focus {
+  outline: 2px solid rgba(238, 68, 95, 1);
+}
+
 //стили для кнопок
+.btnField {
+  display: flex;
+  justify-content: flex-end;
+}
+
 button {
   background-color: rgba(238, 68, 95, 1);
   border: 2px solid rgba(238, 68, 95, 1);
