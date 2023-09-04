@@ -1,37 +1,56 @@
 import data from './data.json'
 
-
+//Отрисовка первой страницы
 function createFirstPage() {
     const content = document.getElementById('content');
     const formHTML = `
             <p>Мы подготовили чек-лист, с помощью которого ты сможешь определить свой уровень знаний и готовность стать
                 Junior Frontend разработчицей</p>
             <p class="pinkText">Оцени свои Hard Skills по 5 бальной шкале, где 5 - знаю отлично, а 1 - не знаю ничего</p>
-    <form>
         <div class="form">
-            <input class="inputField" type="text" placeholder="Твое имя">
-            <input class="inputField" type="text" placeholder="Твоя группа">
+            <input class="inputField inputName" type="text" placeholder="Твое имя">
+            <input class="inputField inputGroup" type="text" placeholder="Твоя группа">
         </div>
         <div class="btnField">
             <button id="firstButton">Начать</button>
-        </div>
-    </form>`;
+        </div>`;
     content.insertAdjacentHTML('beforeend', formHTML);
     const form = content.querySelector('form');
     return form
 }
 
+//Отправка данных в локал сторедж введенных пользователем
+function getDataUser() {
+    const inpName = document.querySelector('.inputName');
+    const inpGroup = document.querySelector('.inputGroup');
+
+    const obj = {
+        inpName: inpName.value, inpGroup: inpGroup.value
+    }
+    localStorage.setItem('dataUser', JSON.stringify(obj))
+}
+
+//Вызов функции первой страницы
 createFirstPage();
 
 const firstButton = document.querySelector('#firstButton');
 
-firstButton.addEventListener('click', renderCards)
+//Подслушка на кнопку, вызов второй страницы и сохранение внесенных пользователем данных 
+firstButton.addEventListener('click', () => {
+    getDataUser()
+    renderCards()
+})
 
+//Слайдер из страниц (вопросы + бегунки + кнопки) - КОД ОСТАЛЬНЫХ УЧАСТНИЦ ПРОЕКТА
 function renderCards() {
 
-    //КОД ОСТАЛЬНЫХ УЧАСТНИЦ ПРОЕКТА - слайдер из страниц с вопросами 
 
-    //Катин код
+
+
+
+
+
+    //Катин код внесла в функцию следующих страниц
     function range() {
         return '<div class="input indent">' +
             '<input type="range" min="1" max="5" class="slider" value="1">' +

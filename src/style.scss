@@ -80,3 +80,13 @@ button:hover {
   background-color: white;
   color: rgba(238, 68, 95, 1);
 }
+
+.cardButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper-content {
+  display: flex;
+  justify-content: space-between;
+}
