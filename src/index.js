@@ -18,7 +18,25 @@ function createFirstPage() {
     const form = content.querySelector('form');
     return form
 }
+//Проверка заполнения инпутов + Uppercase для первой буквы имени
+const name = document.querySelector('.inputName');
+const group = document.querySelector('.inputGroup');
+function checkEmpty() {
+    if (name == '' || group == '') {
+        alert('Необходимо заполнить все поля')
+    }
+}
+function getUserName() {
+    const newName = name.value[0].toUpperCase() + name.value.substring(1).toLowerCase();
+    console.log(newName);
+    name.value = '';
+}
+function getUserGroup() {
+    group.value = '';
+}
 
+// }
+// button.addEventListener('click', getComment);
 //Отправка данных в локал сторедж введенных пользователем
 function getDataUser() {
     const inpName = document.querySelector('.inputName');
@@ -37,6 +55,9 @@ const firstButton = document.querySelector('#firstButton');
 
 //Подслушка на кнопку, вызов второй страницы и сохранение внесенных пользователем данных 
 firstButton.addEventListener('click', () => {
+    checkEmpty()
+    getUserName()
+    getUserGroup()
     getDataUser()
     renderCards()
 })
