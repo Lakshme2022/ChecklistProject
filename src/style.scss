@@ -1,10 +1,33 @@
+
+//Адаптивная верстка с помощью медиа запросов
+@media screen and (max-width: 767px) {
+
+  main {
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1180px) {
+
+  main {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1181px) {
+
+  main {
+    width: 50%;
+  }
+}
+
+
 //стили для оболочки страницы
 body {
   background-color: rgba(250, 219, 227, 1);
 }
 
 main {
-  width: 60%; //увеличила ширину до 60% - страницы с вопросами лучше смотрятся
   background-color: white;
   border-radius: 20px;
   margin: auto;
