@@ -8,10 +8,11 @@ function createFirstPage() {
                 Junior Frontend разработчицей</p>
             <p class="pinkText">Оцени свои Hard Skills по 5 бальной шкале, где 5 - знаю отлично, а 1 - не знаю ничего</p>
         <div class="form">
-            <input class="inputField inputName" type="text" placeholder="Твое имя">
-            <input class="inputField inputGroup" type="text" placeholder="Твоя группа">
+            <input class="inputField inputName" type="text" placeholder="Твое имя" required>
+            <input class="inputField inputGroup" type="text" placeholder="Твоя группа" required>
         </div>
         <div class="btnField">
+        <div class="error"></div>
             <button id="firstButton">Начать</button>
         </div>`;
     content.insertAdjacentHTML('beforeend', formHTML);
@@ -19,21 +20,28 @@ function createFirstPage() {
     return form
 }
 //Проверка заполнения инпутов + Uppercase для первой буквы имени
-const name = document.querySelector('.inputName');
-const group = document.querySelector('.inputGroup');
 function checkEmpty() {
-    if (name == '' || group == '') {
-        alert('Необходимо заполнить все поля')
+    const name = document.querySelector('.inputName');
+    const group = document.querySelector('.inputGroup');
+    if (name.value === '' || group.value === '') {
+        //alert('Необходимо заполнить все поля')
+        const div = document.createElement('div');
+        document.querySelector('.error').textContent = "Необходимо заполнить все поля";
+
+
     }
+    else if (name.value != "" && group.value != "") {
+        document.querySelector('.error').textContent = "";
+    }
+    else {
+        name.value = name.value[0].toUpperCase() + name.value.substring(1).toLowerCase();
+        console.log(name.value);
+        console.log(group.value);
+
+    }
+
 }
-function getUserName() {
-    const newName = name.value[0].toUpperCase() + name.value.substring(1).toLowerCase();
-    console.log(newName);
-    name.value = '';
-}
-function getUserGroup() {
-    group.value = '';
-}
+
 
 // }
 // button.addEventListener('click', getComment);
@@ -56,8 +64,6 @@ const firstButton = document.querySelector('#firstButton');
 //Подслушка на кнопку, вызов второй страницы и сохранение внесенных пользователем данных 
 firstButton.addEventListener('click', () => {
     checkEmpty()
-    getUserName()
-    getUserGroup()
     getDataUser()
     renderCards()
 })
