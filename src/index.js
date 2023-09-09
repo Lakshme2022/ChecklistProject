@@ -66,23 +66,38 @@ function renderCards() {
 
 }
 
-//отрисовка последней страницы
-const result = 20//условное значение результата
+//создание последней страницы
 function createLastPage(){
+    //получение всех ключей объекта
+    const arrKeyData = Object.keys(JSON.parse(localStorage.getItem('userData')));
+    //удаление ключей, которые не нужны для расчета
+    const newArrKeyData=arrKeyData.filter(e=>e!='userName'&&e!='groupNum')
+    //подсчет суммы результатов
+    let result=0
+    const answer = JSON.parse(localStorage.getItem('userData'));
+    newArrKeyData.forEach(item=>{
+        let resultAnswer=answer[item].currentRangeValues;
+        let res=resultAnswer.reduce((a,b)=>a+b)
+        result+=res;
+        
+    })
+    //перевод резельтата в проценты
+    const percentResult = result*100/100
+    //отрисовка последней страницы
     const content = document.getElementById('content');
     content.innerHTML = ''
     content.innerHTML = '<h2 class = "pinkText">Отличная работа, поздравляю!</h2>'+
-    '<div class="grid"><h3>Твой результат:</h3><h3 class = "pinkText">'+result+'%</h3></div>'
+    '<div class="grid"><h3>Твой результат:</h3><h3 class = "pinkText">'+percentResult+'%</h3></div>'
     const divLevel = document.createElement('div')
     divLevel.classList.add("grid")
     content.append(divLevel)
     divLevel.insertAdjacentHTML('beforeend',`<h3>что соответсвтвует уровню: </h3>`)
 
-    if (result<60){
+    if (percentResult<60){
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Новичок"</h3>`)
         divLevel.insertAdjacentHTML('afterEnd',`<h2>Следует повторить:</h2>`)
     }
-    else if (result>=60 && result<80){
+    else if (percentResult>=60 && percentResult<80){
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Стажёр"</h3>`)
         divLevel.insertAdjacentHTML('afterEnd',`<h2>Ты можешь смело искать предложения по стажировке, но повтори перед этим следующие темы:</h2>`)
     }
@@ -90,14 +105,16 @@ function createLastPage(){
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Младший разработчик"</h3>`)        
         divLevel.insertAdjacentHTML('afterEnd',`<h2>Можешь приступать к подготовке к собеседованию!</h2><div class="div_video"><button class="btn_video">Видео с собеседованием</button></div>`)   
     } 
+    //создание кнопки для перехода в начало
     const btnStart = document.createElement('button') 
     btnStart.textContent = "В начало"
     content.append(btnStart)
 
-//переход на первую страницу
+//переход на первую страницу и очистка локал сторедж
     btnStart.addEventListener('click',(e)=>{
         content.innerHTML = ''
         createFirstPage()
+        window.localStorage.clear()
         btnStart.style.display='none'
     })
 } 
