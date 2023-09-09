@@ -8,8 +8,8 @@ function createFirstPage() {
                 Junior Frontend разработчицей</p>
             <p class="pinkText">Оцени свои Hard Skills по 5 бальной шкале, где 5 - знаю отлично, а 1 - не знаю ничего</p>
         <div class="form">
-            <input class="inputField inputName" type="text" placeholder="Твое имя" required>
-            <input class="inputField inputGroup" type="text" placeholder="Твоя группа" required>
+            <input class="inputField inputName" type="text" placeholder="Твое имя" >
+            <input class="inputField inputGroup" type="text" placeholder="Твоя группа" >
         </div>
         <div class="btnField">
         <div class="error"></div>
@@ -23,26 +23,19 @@ function createFirstPage() {
 function checkEmpty() {
     const name = document.querySelector('.inputName');
     const group = document.querySelector('.inputGroup');
-    if (name.value === '' || group.value === '') {
-        //alert('Необходимо заполнить все поля')
+    if (name.value === '' || group.value === '') {//предупреждение о незаполненных полях, если хотя бы одно из них не заполнено
         const div = document.createElement('div');
-        document.querySelector('.error').textContent = "Необходимо заполнить все поля";
-
-
+        document.querySelector('.error').textContent = "* Необходимо заполнить все поля";
     }
-    else if (name.value != "" && group.value != "") {
-        document.querySelector('.error').textContent = "";
-    }
-    else {
+    // else if (name.value != "" && group.value != "") {//удаление предупреждения о незаполненых полях, если их заполнили 
+    //     document.querySelector('.error').textContent = "";
+    // } //!!!если эта часть кода активна, не работает часть "else" ниже!!!
+    else { //Капиталайз имени
         name.value = name.value[0].toUpperCase() + name.value.substring(1).toLowerCase();
         console.log(name.value);
         console.log(group.value);
-
     }
-
 }
-
-
 // }
 // button.addEventListener('click', getComment);
 //Отправка данных в локал сторедж введенных пользователем
