@@ -113,3 +113,23 @@ button:hover {
   display: flex;
   justify-content: space-between;
 }
+
+//стили последней страницы
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+}
+h2{
+  text-align: center;
+}
+.div_video{
+  display: flex;
+  justify-content: center;  
+}
+.btn_video{
+  height: 25px;
+  width: 300px;
+  padding: 0px;
+  margin-bottom: 50px;
+  }
