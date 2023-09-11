@@ -22,7 +22,6 @@ function createFirstPage() {
             <input class="inputField inputName" type="text" placeholder="Твое имя" >
             <input class="inputField inputGroup" type="text" placeholder="Твоя группа" >
         </div>
-        <div class="error"></div>
         <div class="btnField indent">
             <button id="firstButton">Начать</button>
         </div>`;
@@ -51,9 +50,14 @@ function checkEmpty() {
     // ?: должна возвращать bool, что бы в случае не прохождения валидации можно было применить условие и не переходить на след "страницу"
     const name = document.querySelector('.inputName');
     const group = document.querySelector('.inputGroup');
-    if (name.value === '' || group.value === '') {//предупреждение о незаполненных полях, если хотя бы одно из них не заполнено
-        const div = document.createElement('div');
-        document.querySelector('.error').textContent = "* Необходимо заполнить все поля";
+    if (name.value === '' || group.value === '') {  //предупреждение о незаполненных полях, если хотя бы одно из них не заполнено
+        if (!document.querySelector('#alert_div')) {  //конструкция if позволяет не постить этот див при каждом нажатии
+            const alert = document.createElement('div');
+            alert.id = 'alert_div'
+            const btnField = document.querySelector('.btnField');
+            alert.innerHTML = '<h3 class="center pinkText">* Необходимо заполнить все поля</h3>';
+            btnField.before(alert)
+        }
         return false;
     }
     // else if (name.value != "" && group.value != "") {//удаление предупреждения о незаполненых полях, если их заполнили 
@@ -73,15 +77,14 @@ const glObj = {
 }
 // ?: функция переименована с getDataUser
 function setDataUser() {
-    // TODO: Добавить валидацию
     const inpName = document.querySelector('.inputName');
     const inpGroup = document.querySelector('.inputGroup');
     glObj.userName = inpName.value;
     glObj.groupNum = inpGroup.value;
 }
 
-function createCards(title, arrQuestion) {
-    global_title = title;
+function createCards(title, arrQuestion, section_key) {
+    global_title = section_key;
     container.innerHTML = ''
     const createDivContainerCard = document.querySelector('div')
     createDivContainerCard.insertAdjacentHTML('beforeend', `<h2 class="indent pinkText">${title}</h2>`)
@@ -122,7 +125,7 @@ function createQuestion(question) {
 //Слайдер из страниц (вопросы + бегунки + кнопки)
 function renderCards() {
     const arrKeyData = Object.keys(data);
-    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question, arrKeyData[count])
 }
 
 container.addEventListener('click', (e) => {
@@ -140,7 +143,7 @@ function createNextCard() {
         createLastPage()
     } else {
         count += 1
-        createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+        createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question, arrKeyData[count])
     }
 }
 
@@ -149,7 +152,7 @@ function createPrevCard() {
         createFirstPage()
     } else {
         count -= 1
-        createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+        createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question, arrKeyData[count])
     }
 }
 
@@ -175,22 +178,22 @@ function createLastPage(){
     //получение всех ключей объекта
     const arrKeyData = Object.keys(JSON.parse(localStorage.getItem('userData')));
     //удаление ключей, которые не нужны для расчета
-    const newArrKeyData=arrKeyData.filter(e=>e!='userName'&&e!='groupNum')
+    const newArrKeyData = arrKeyData.filter(e => e!== 'userName' && e!== 'groupNum')
     //подсчет суммы результатов
-    let result=0
+    let result = 0
     const answer = JSON.parse(localStorage.getItem('userData'));
 
     newArrKeyData.forEach(item=>{
-        let resultAnswer=answer[item].currentRangeValues;
-        let res=resultAnswer.reduce((a,b)=>Number(a)+Number(b))
-        result+=res;
-
+        let resultAnswer = answer[item].currentRangeValues;
+        let res = resultAnswer.reduce((a,b) => Number(a) + Number(b))
+        result += res;
     })
+
     //перевод результата в проценты
-    const percentResult = result*100/100
+    const percentResult = result * 100/100
     //отрисовка последней страницы
     const content = document.getElementById('content');
-    //  ?: Следущая строка выполняет одинаковое действие, разный контент
+    //  ?: Следующая строка выполняет одинаковое действие, разный контент
     // content.innerHTML = ''
     content.innerHTML = `<h2 class = "pinkText">Отличная работа, поздравляю!</h2>
             <div class="grid"><h3>Твой результат:</h3><h3 class = "pinkText">${percentResult}%</h3></div>`
@@ -199,38 +202,49 @@ function createLastPage(){
     content.append(divLevel)
     divLevel.insertAdjacentHTML('beforeend',`<h3>что соответсвтвует уровню: </h3>`)
 
-    if (percentResult<=59){
+    if (percentResult<=59){                            // ?: не очень понятно зачем создавать эти элементы, если можно сразу сгенерить html как в куске выше, сложно читать такой код
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Новичок"</h3>`)
-        divLevel.insertAdjacentHTML('afterEnd',`<h2>Следует повторить:</h2>`)
+        divLevel.insertAdjacentHTML('afterend',`<h2>Ты можешь смело искать предложения по стажировке, но повтори перед этим следующие темы, находящиеся по ссылкам ниже:</h2>`)
     }
     else if (percentResult>=60 && percentResult<80){
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Стажёр"</h3>`)
-        divLevel.insertAdjacentHTML('afterEnd',`<h2>Ты можешь смело искать предложения по стажировке, но повтори перед этим следующие темы:</h2>`)
+        divLevel.insertAdjacentHTML('afterend',`<h2>Перед составлением резюме рекомендую сходить по нижеприведенным ссылкам и повторить темы:</h2>`)
     }
     else{
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Младший разработчик"</h3>`)
-        divLevel.insertAdjacentHTML('afterEnd',`<h2>Можешь приступать к подготовке к собеседованию!</h2><div class="div_video"><button class="btn_video">Видео с собеседованием</button></div>`)
+        divLevel.insertAdjacentHTML('afterend',`<h2>Можешь приступать к подготовке к собеседованию!</h2>
+        <div class="video indent"><iframe src="https://www.youtube.com/embed/cyfaOAH-CF0"></iframe></div>`) // ?: поправила видео на более привычный формат
     }
     //создание кнопки для перехода в начало
     const btnStart = document.createElement('button')
     btnStart.textContent = "В начало"
     content.append(btnStart)
 
-    //переход на первую страницу и очистка локал сторедж
+    //переход на первую страницу и очистка локал сторедж    // ?: не очень понятно зачем вообще очищать локал сторедж
     btnStart.addEventListener('click',(e)=>{
         content.innerHTML = ''
         createFirstPage()
         window.localStorage.clear()
         btnStart.style.display='none'
     })
+
+    if (percentResult >= 80) return '';
+
+    newArrKeyData.forEach((key, index)=>{
+        console.log(key);
+        let resultAnswers = answer[key].currentRangeValues;
+        resultAnswers.forEach((score, i) => {
+            console.log(i);
+            if (score <= 3) {
+                console.log(score);
+                console.log(data[key]['suggestion'][i])  // ? : очень сложно сделать нормальные стили этому куску, потому что предыдущий сделан через криейт
+                btnStart.insertAdjacentHTML('beforebegin',`<h3 class="pinkTekst">${data[key]['suggestion'][i]}</h3>`);
+
+            }
+        })
+    })
 }
 
-//переход на страницу с собеседованием
-// content.addEventListener('click', (e)=>{
-//     if(e.target.classList.contains('btn_video')){
-//         location.href ="https://www.youtube.com/watch?v=t3h745eJOKU"
-//     }
-// })
 
 
 document.addEventListener("DOMContentLoaded", function () {   //Вызов функции первой страницы
