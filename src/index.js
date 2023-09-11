@@ -20,14 +20,16 @@ function createFirstPage() {
 }
 
 //Отправка данных в локал сторедж введенных пользователем
+const glObj = {
+    userName: null,
+    groupNum: null,
+}
+
 function getDataUser() {
     const inpName = document.querySelector('.inputName');
     const inpGroup = document.querySelector('.inputGroup');
-
-    const obj = {
-        inpName: inpName.value, inpGroup: inpGroup.value
-    }
-    localStorage.setItem('dataUser', JSON.stringify(obj))
+    glObj.userName = inpName.value;
+    glObj.groupNum = inpGroup.value;
 }
 
 //Вызов функции первой страницы
@@ -42,12 +44,88 @@ firstButton.addEventListener('click', () => {
 })
 
 //Слайдер из страниц (вопросы + бегунки + кнопки) - КОД ОСТАЛЬНЫХ УЧАСТНИЦ ПРОЕКТА
+// Код (Егора) основной 
+
 function renderCards() {
+    const container = document.querySelector('.container');
+    const arrKeyData = Object.keys(data);
+    let count = 0;
+    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+
+
+    function createQuestion(question) {
+        const div = document.createElement('div')
+        div.classList.add('item')
+        const template = `
+    <div class='wrapper-content'>
+    <div class="question">${question}</div>
+    <div class='range'>${range()}</div>
+    </div>
+    
+    `
+        div.insertAdjacentHTML('beforeend', template)
+        return div
+    }
+
+    function createCards(title, arrQuestion) {
+        container.innerHTML = ''
+        const createDivContainerCard = document.querySelector('div')
+        createDivContainerCard.insertAdjacentHTML('beforeend', `<h2>${title}</h2>`)
+        arrQuestion.forEach(item => {
+            const divQuestion = createQuestion(item)
+            container.appendChild(divQuestion)
+        })
+        container.insertAdjacentHTML('beforeend', `
+        <div class="cardButtons">
+            <button id=${title} class='prevCardsBtn' >Назад</button>
+            <button id=${title} class='nextCardsBtn' >Вперед</button>
+        </div>`)
+    }
+
+container.addEventListener('click', (e) => {
+    const {id} = event.target
+    if (e.target.classList.contains('nextCardsBtn')) {
+        saveObectLocalStorage(id)
+        createNextCard()
+    } else if (e.target.classList.contains('prevCardsBtn')) {
+        saveObectLocalStorage(id)
+        goBackToPrevCard();
+    }
+})
+
+// Сохранение в локал сторедж
+function saveObectLocalStorage(title) {
+    createFirstPage();
+    const setOfQuestions = data[arrKeyData[count]].question;
+    const currentRangeValues = Array.from(container.querySelectorAll('.slider')).map(input => input.value);
+
+    const userData = {
+        setOfQuestions,
+        currentRangeValues
+    };
+    glObj[title] = userData;
+
+    localStorage.setItem('userData', JSON.stringify(glObj));
+    console.log (glObj);
+}
 
 
 
+function createNextCard() {
+    if (arrKeyData.length - 1 <= count) {
+        return
+    }
+    count += 1
+    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+}
 
-
+function goBackToPrevCard() {
+    if (count <= 0) {
+        return;
+    }
+    count -= 1;
+    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+}
 
 
     //Катин код внесла в функцию следующих страниц
