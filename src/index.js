@@ -1,6 +1,11 @@
 import data from './data.json'
 
 let global_title = '' // ?: для именования ключей в localStorage
+// ?: теряется видимость, когда глобальные по смыслу переменные объявляются внутри функции
+let count = 0;
+const container = document.querySelector('.container');
+const arrKeyData = Object.keys(data);
+
 
 function createFirstPage() {
     //Отрисовка первой страницы
@@ -26,10 +31,14 @@ function createFirstPage() {
 
     // Подслушка на кнопку, вызов второй страницы и сохранение внесенных пользователем данных
     firstButton.addEventListener('click', () => {
-        console.log(1111)
+        // ?: валидация
+        if (checkEmpty()) {
+            setDataUser()
+            // ?: и номер "индекса" count
+            count = 0;
+            renderCards()
+        }
         // getDataUser() ?: по смыслу тут set, не get
-        setDataUser()
-        renderCards()
     })
     // ?: результат функции не используется, в этих строчках нет смысла
     // const form = content.querySelector('form');
@@ -39,20 +48,21 @@ function createFirstPage() {
 
 //Проверка заполнения инпутов + Uppercase для первой буквы имени
 function checkEmpty() {
+    // ?: должна возвращать bool, что бы в случае не прохождения валидации можно было применить условие и не переходить на след "страницу"
     const name = document.querySelector('.inputName');
     const group = document.querySelector('.inputGroup');
     if (name.value === '' || group.value === '') {//предупреждение о незаполненных полях, если хотя бы одно из них не заполнено
         const div = document.createElement('div');
         document.querySelector('.error').textContent = "* Необходимо заполнить все поля";
+        return false;
     }
     // else if (name.value != "" && group.value != "") {//удаление предупреждения о незаполненых полях, если их заполнили 
     //     document.querySelector('.error').textContent = "";
     // } //!!!если эта часть кода активна, не работает часть "else" ниже!!!
     else { //Капиталайз имени
         name.value = name.value[0].toUpperCase() + name.value.substring(1).toLowerCase();
-        console.log(name.value);
-        console.log(group.value);
     }
+    return true;
 }
 // }
 // button.addEventListener('click', getComment);
@@ -70,105 +80,95 @@ function setDataUser() {
     glObj.groupNum = inpGroup.value;
 }
 
+function createCards(title, arrQuestion) {
+    global_title = title;
+    container.innerHTML = ''
+    const createDivContainerCard = document.querySelector('div')
+    createDivContainerCard.insertAdjacentHTML('beforeend', `<h2 class="indent pinkText">${title}</h2>`)
+    arrQuestion.forEach(item => {
+        const divQuestion = createQuestion(item)
+        container.appendChild(divQuestion)
+    })
 
-//Слайдер из страниц (вопросы + бегунки + кнопки)
-function renderCards() {
-    const container = document.querySelector('.container');
-    const arrKeyData = Object.keys(data);
-    let count = 0;
-    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
-
-    function createQuestion(question) {
-        const div = document.createElement('div')
-        div.classList.add('item')
-        const template = `
-                    <div class="wrapperContent">
-                    <div class="question indent">${question}</div>
-                    <div class="range indent">${range()}</div>
-                    </div>`
-        div.insertAdjacentHTML('beforeend', template)
-        return div
-    }
-
-    function createCards(title, arrQuestion) {
-        global_title = title;
-        container.innerHTML = ''
-        const createDivContainerCard = document.querySelector('div')
-        createDivContainerCard.insertAdjacentHTML('beforeend', `<h2 class="indent pinkText">${title}</h2>`)
-        arrQuestion.forEach(item => {
-            const divQuestion = createQuestion(item)
-            container.appendChild(divQuestion)
-        })
-
-        container.insertAdjacentHTML('beforeend', `
+    container.insertAdjacentHTML('beforeend', `
         <div class="cardButtons">
             <button class='prevCardsBtn' >Назад</button>
             <button class='nextCardsBtn' >Вперед</button>
         </div>`)
+}
+
+function range() {
+       //Катин код внесла в функцию следующих страниц
+    return '<div class="input indent">' +
+        '<input type="range" min="1" max="5" class="slider" value="1">' +
+        '<div class="numbers"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>' +
+        '</div>' +
+        '</div>';
+}
+
+function createQuestion(question) {
+    const div = document.createElement('div')
+    div.classList.add('item')
+    const template = `
+                    <div class="wrapperContent">
+                    <div class="question indent">${question}</div>
+                    <div class="range indent">${range()}</div>
+                    </div>`
+    div.insertAdjacentHTML('beforeend', template)
+    return div
+}
+
+
+//Слайдер из страниц (вопросы + бегунки + кнопки)
+function renderCards() {
+    const arrKeyData = Object.keys(data);
+    createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
+}
+
+container.addEventListener('click', (e) => {
+    if (e.target.classList.contains('nextCardsBtn')) {
+        saveObjectLocalStorage(global_title)
+        createNextCard()
+    } else if (e.target.classList.contains('prevCardsBtn')) {
+        saveObjectLocalStorage(global_title)
+        createPrevCard()
     }
+})
 
-    function createNextCard() {
-        if (count+1 === arrKeyData.length) {
-            createLastPage()
-        } else {
-            count += 1
-            createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
-        }
+function createNextCard() {
+    if (count+1 === arrKeyData.length) {
+        createLastPage()
+    } else {
+        count += 1
+        createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
     }
+}
 
-    function createPrevCard() {
-        if ( count === 0) {
-            createFirstPage()
-        } else {
-            count -= 1
-            createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
-        }
+function createPrevCard() {
+    if ( count === 0) {
+        createFirstPage()
+    } else {
+        count -= 1
+        createCards(data[arrKeyData[count]].title, data[arrKeyData[count]].question)
     }
-
-
-    container.addEventListener('click', (e) => {
-        const {id} = e.target;
-        if (e.target.classList.contains('nextCardsBtn')) {
-            saveObjectLocalStorage(global_title)
-            createNextCard()
-        } else if (e.target.classList.contains('prevCardsBtn')) {
-            saveObjectLocalStorage(global_title)
-            createPrevCard()
-        }
-    })
-
-
-//Катин код внесла в функцию следующих страниц
-    function range() {
-        return '<div class="input indent">' +
-            '<input type="range" min="1" max="5" class="slider" value="1">' +
-            '<div class="numbers"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>' +
-            '</div>' +
-            '</div>';
-    }
+}
 
 
 // Сохранение в локал сторедж
-    function saveObjectLocalStorage(title) {
-        // ?: save должен делать только сохранение
-        // createFirstPage();
-        const arrKeyData = Object.keys(data);
-        const setOfQuestions = data[arrKeyData[count]].question;
-        const currentRangeValues = Array.from(container.querySelectorAll('.slider')).map(input => input.value);
+function saveObjectLocalStorage(title) {
+    // ?: save должен делать только сохранение
+    // createFirstPage();
+    const setOfQuestions = data[arrKeyData[count]].question;
+    const currentRangeValues = Array.from(container.querySelectorAll('.slider')).map(input => input.value);
+    const userData = {
+        setOfQuestions,
+        currentRangeValues
+    };
+    glObj[title] = userData;
 
-        const userData = {
-            setOfQuestions,
-            currentRangeValues
-        };
-        glObj[title] = userData;
-
-        localStorage.setItem('userData', JSON.stringify(glObj));
-
-    }
-
+    localStorage.setItem('userData', JSON.stringify(glObj));
 
 }
-
 
 //создание последней страницы
 function createLastPage(){
@@ -179,9 +179,10 @@ function createLastPage(){
     //подсчет суммы результатов
     let result=0
     const answer = JSON.parse(localStorage.getItem('userData'));
+
     newArrKeyData.forEach(item=>{
         let resultAnswer=answer[item].currentRangeValues;
-        let res=resultAnswer.reduce((a,b)=>a+b)
+        let res=resultAnswer.reduce((a,b)=>Number(a)+Number(b))
         result+=res;
 
     })
@@ -189,9 +190,10 @@ function createLastPage(){
     const percentResult = result*100/100
     //отрисовка последней страницы
     const content = document.getElementById('content');
-    content.innerHTML = ''
-    content.innerHTML = '<h2 class = "pinkText">Отличная работа, поздравляю!</h2>'+
-    '<div class="grid"><h3>Твой результат:</h3><h3 class = "pinkText">'+percentResult+'%</h3></div>'
+    //  ?: Следущая строка выполняет одинаковое действие, разный контент
+    // content.innerHTML = ''
+    content.innerHTML = `<h2 class = "pinkText">Отличная работа, поздравляю!</h2>
+            <div class="grid"><h3>Твой результат:</h3><h3 class = "pinkText">${percentResult}%</h3></div>`
     const divLevel = document.createElement('div')
     divLevel.classList.add("grid")
     content.append(divLevel)
@@ -214,7 +216,7 @@ function createLastPage(){
     btnStart.textContent = "В начало"
     content.append(btnStart)
 
-//переход на первую страницу и очистка локал сторедж
+    //переход на первую страницу и очистка локал сторедж
     btnStart.addEventListener('click',(e)=>{
         content.innerHTML = ''
         createFirstPage()
