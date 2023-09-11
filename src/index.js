@@ -12,10 +12,12 @@ function createFirstPage() {
             <div class="indent">Мы подготовили чек-лист, с помощью которого ты сможешь определить свой уровень знаний и готовность стать
                 Junior Frontend разработчицей</div>
             <div class="pinkText indent">Оцени свои Hard Skills по 5 бальной шкале, где 5 - знаю отлично, а 1 - не знаю ничего</div>
+
         <div class="form indent">
-            <input class="inputField inputName" type="text" placeholder="Твое имя">
-            <input class="inputField inputGroup" type="text" placeholder="Твоя группа">
+            <input class="inputField inputName" type="text" placeholder="Твое имя" >
+            <input class="inputField inputGroup" type="text" placeholder="Твоя группа" >
         </div>
+        <div class="error"></div>
         <div class="btnField indent">
             <button id="firstButton">Начать</button>
         </div>`;
@@ -35,7 +37,26 @@ function createFirstPage() {
 
 }
 
-//Отправка введенных пользователем данных в локал сторедж
+//Проверка заполнения инпутов + Uppercase для первой буквы имени
+function checkEmpty() {
+    const name = document.querySelector('.inputName');
+    const group = document.querySelector('.inputGroup');
+    if (name.value === '' || group.value === '') {//предупреждение о незаполненных полях, если хотя бы одно из них не заполнено
+        const div = document.createElement('div');
+        document.querySelector('.error').textContent = "* Необходимо заполнить все поля";
+    }
+    // else if (name.value != "" && group.value != "") {//удаление предупреждения о незаполненых полях, если их заполнили 
+    //     document.querySelector('.error').textContent = "";
+    // } //!!!если эта часть кода активна, не работает часть "else" ниже!!!
+    else { //Капиталайз имени
+        name.value = name.value[0].toUpperCase() + name.value.substring(1).toLowerCase();
+        console.log(name.value);
+        console.log(group.value);
+    }
+}
+// }
+// button.addEventListener('click', getComment);
+//Отправка данных в локал сторедж введенных пользователем
 const glObj = {
     userName: null,
     groupNum: null,

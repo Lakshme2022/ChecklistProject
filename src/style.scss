@@ -61,6 +61,14 @@ main {
   color: rgba(238, 68, 95, 1);
 }
 
+.error {
+  //надпись "Необходимо заполнить все поля"
+  display: flex;
+  align-items: center;
+  color: rgba(238, 68, 95, 1);
+  font-weight: bold
+}
+
 //добавила стили для инпутов
 .form {
   display: flex;
