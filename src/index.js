@@ -1,17 +1,14 @@
 import data from './data.json'
 
-let global_title = '' // ?: для именования ключей в localStorage
-// ?: теряется видимость, когда глобальные по смыслу переменные объявляются внутри функции
+let global_title = ''
 let count = 0;
 const container = document.querySelector('.container');
 const arrKeyData = Object.keys(data);
-
 
 function createFirstPage() {
     //Отрисовка первой страницы
     global_title = 'first';
     const content = document.getElementById('content');
-    // ?: нужно "обнулить" содержимое, иначе при переходе назад код просто добавится
     content.innerHTML = ''
     const formHTML = `
             <div class="indent">Мы подготовили чек-лист, с помощью которого ты сможешь определить свой уровень знаний и готовность стать
@@ -19,7 +16,7 @@ function createFirstPage() {
             <div class="pinkText indent">Оцени свои Hard Skills по 5 бальной шкале, где 5 - знаю отлично, а 1 - не знаю ничего</div>
 
         <div class="form indent">
-            <input class="inputField inputName" type="text" placeholder="Твое имя" >
+            <input class="inputField inputName" type="text" placeholder="Твое имя и фамилия" >
             <input class="inputField inputGroup" type="text" placeholder="Твоя группа" >
         </div>
         <div class="btnField indent">
@@ -30,28 +27,20 @@ function createFirstPage() {
 
     // Подслушка на кнопку, вызов второй страницы и сохранение внесенных пользователем данных
     firstButton.addEventListener('click', () => {
-        // ?: валидация
         if (checkEmpty()) {
             setDataUser()
-            // ?: и номер "индекса" count
             count = 0;
             renderCards()
         }
-        // getDataUser() ?: по смыслу тут set, не get
     })
-    // ?: результат функции не используется, в этих строчках нет смысла
-    // const form = content.querySelector('form');
-    // return form
-
 }
 
 //Проверка заполнения инпутов + Uppercase для первой буквы имени
 function checkEmpty() {
-    // ?: должна возвращать bool, что бы в случае не прохождения валидации можно было применить условие и не переходить на след "страницу"
     const name = document.querySelector('.inputName');
     const group = document.querySelector('.inputGroup');
-    if (name.value === '' || group.value === '') {  //предупреждение о незаполненных полях, если хотя бы одно из них не заполнено
-        if (!document.querySelector('#alert_div')) {  //конструкция if позволяет не постить этот див при каждом нажатии
+    if (name.value === '' || group.value === '') {
+        if (!document.querySelector('#alert_div')) {
             const alert = document.createElement('div');
             alert.id = 'alert_div'
             const btnField = document.querySelector('.btnField');
@@ -60,22 +49,18 @@ function checkEmpty() {
         }
         return false;
     }
-    // else if (name.value != "" && group.value != "") {//удаление предупреждения о незаполненых полях, если их заполнили 
-    //     document.querySelector('.error').textContent = "";
-    // } //!!!если эта часть кода активна, не работает часть "else" ниже!!!
     else { //Капиталайз имени
         name.value = name.value[0].toUpperCase() + name.value.substring(1).toLowerCase();
     }
     return true;
 }
-// }
-// button.addEventListener('click', getComment);
+
 //Отправка данных в локал сторедж введенных пользователем
 const glObj = {
     userName: null,
     groupNum: null,
 }
-// ?: функция переименована с getDataUser
+
 function setDataUser() {
     const inpName = document.querySelector('.inputName');
     const inpGroup = document.querySelector('.inputGroup');
@@ -101,7 +86,6 @@ function createCards(title, arrQuestion, section_key) {
 }
 
 function range() {
-       //Катин код внесла в функцию следующих страниц
     return '<div class="input indent">' +
         '<input type="range" min="1" max="5" class="slider" value="1">' +
         '<div class="numbers"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>' +
@@ -120,7 +104,6 @@ function createQuestion(question) {
     div.insertAdjacentHTML('beforeend', template)
     return div
 }
-
 
 //Слайдер из страниц (вопросы + бегунки + кнопки)
 function renderCards() {
@@ -156,11 +139,8 @@ function createPrevCard() {
     }
 }
 
-
 // Сохранение в локал сторедж
 function saveObjectLocalStorage(title) {
-    // ?: save должен делать только сохранение
-    // createFirstPage();
     const setOfQuestions = data[arrKeyData[count]].question;
     const currentRangeValues = Array.from(container.querySelectorAll('.slider')).map(input => input.value);
     const userData = {
@@ -170,7 +150,6 @@ function saveObjectLocalStorage(title) {
     glObj[title] = userData;
 
     localStorage.setItem('userData', JSON.stringify(glObj));
-
 }
 
 //создание последней страницы
@@ -193,16 +172,16 @@ function createLastPage(){
     const percentResult = result * 100/100
     //отрисовка последней страницы
     const content = document.getElementById('content');
-    //  ?: Следующая строка выполняет одинаковое действие, разный контент
-    // content.innerHTML = ''
+
     content.innerHTML = `<h2 class = "pinkText">Отличная работа, поздравляю!</h2>
             <div class="grid"><h3>Твой результат:</h3><h3 class = "pinkText">${percentResult}%</h3></div>`
+
     const divLevel = document.createElement('div')
     divLevel.classList.add("grid")
     content.append(divLevel)
     divLevel.insertAdjacentHTML('beforeend',`<h3>что соответсвтвует уровню: </h3>`)
 
-    if (percentResult<=59){                            // ?: не очень понятно зачем создавать эти элементы, если можно сразу сгенерить html как в куске выше, сложно читать такой код
+    if (percentResult<=59){
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Новичок"</h3>`)
         divLevel.insertAdjacentHTML('afterend',`<h2>Ты можешь смело искать предложения по стажировке, но повтори перед этим следующие темы, находящиеся по ссылкам ниже:</h2>`)
     }
@@ -213,23 +192,22 @@ function createLastPage(){
     else{
         divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Младший разработчик"</h3>`)
         divLevel.insertAdjacentHTML('afterend',`<h2>Можешь приступать к подготовке к собеседованию!</h2>
-        <div class="video indent"><iframe src="https://www.youtube.com/embed/cyfaOAH-CF0"></iframe></div>`) // ?: поправила видео на более привычный формат
+        <div class="video indent"><iframe src="https://www.youtube.com/embed/cyfaOAH-CF0"></iframe></div>`)
     }
     //создание кнопки для перехода в начало
     const btnStart = document.createElement('button')
     btnStart.textContent = "В начало"
     content.append(btnStart)
 
-    //переход на первую страницу и очистка локал сторедж    // ?: не очень понятно зачем вообще очищать локал сторедж
+    //переход на первую страницу
     btnStart.addEventListener('click',(e)=>{
         content.innerHTML = ''
         createFirstPage()
-        window.localStorage.clear()
         btnStart.style.display='none'
     })
 
     if (percentResult >= 80) return '';
-
+    // генерация рекомендаций, если ответ на вопрос был <=3
     newArrKeyData.forEach((key, index)=>{
         console.log(key);
         let resultAnswers = answer[key].currentRangeValues;
@@ -237,15 +215,12 @@ function createLastPage(){
             console.log(i);
             if (score <= 3) {
                 console.log(score);
-                console.log(data[key]['suggestion'][i])  // ? : очень сложно сделать нормальные стили этому куску, потому что предыдущий сделан через криейт
+                console.log(data[key]['suggestion'][i])
                 btnStart.insertAdjacentHTML('beforebegin',`<h3 class="pinkTekst">${data[key]['suggestion'][i]}</h3>`);
-
             }
         })
     })
 }
-
-
 
 document.addEventListener("DOMContentLoaded", function () {   //Вызов функции первой страницы
     createFirstPage()
