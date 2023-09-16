@@ -240,7 +240,7 @@ function createLastPage(){
             if (score <= 3) {
                 console.log(score);
                 console.log(data[key]['suggestion'][i])  
-                btnStart.insertAdjacentHTML('beforebegin',`<h2 class="pinkTekst">${data[key]['suggestion'][i]}</h2>`);
+                btnStart.insertAdjacentHTML('beforebegin',`<h3 class="pinkTekst">${data[key]['suggestion'][i]}</h3>`);
             }
         })
     })
