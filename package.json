@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "parcel src/index.html --port 8888",
-    "build": "parcel build --no-minify -d docs src/index.html",
+    "build": "parcel build --no-minify --public-url /ChecklistProject/ -d docs src/index.html",
     "deploy": "rm -rf ./dist && npm run build && gh-pages -d dist"
   },
   "author": "",

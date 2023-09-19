@@ -135,13 +135,10 @@ module.exports = {
     "suggestion": ["Что такое сборщик модулей. Babel. Настройка Webpack. Правила. Модули. Плагины. DevServer. Переход к Vite (это был вебинар с наставницей)", "<a href='https://itgirlschool.notion.site/21-React-e44288ea389a4c3cb7bb2d6a1658fbc0' target='_blank'>Неделя 21. Введение в React.</a> <a href='https://itgirlschool.notion.site/22-c559af92ea8b468f9eb3ca6f01495b5b' target='_blank'>Неделя 22. Компоненты.</a> <a href='https://itgirlschool.notion.site/23-CSS-React-d4b0b61bb697459aacb1681ba2764440' target='_blank'>Неделя 23. CSS в React.</a> <a href='https://itgirlschool.notion.site/24-Props-State-e85c9dbc72b8400484b7fa8dbcef3b79' target='_blank'>Неделя 24. Props & State.</a> <a href='https://itgirlschool.notion.site/25-e45f5c4b3f7f4c0aa1097fdc36df362c' target='_blank'>Неделя 25. Жизненный цикл компонента</a>", "<a href='https://itgirlschool.notion.site/29-Context-26ce7fd605f342adb66195ecebb18e86' target='_blank'>Неделя 29. Context</a> + Библиотеки (это была тема для самостоятельного изучения)", "<a href='https://itgirlschool.notion.site/26-f67d3134cbf54844831a5d899db00b36' target='_blank'>Неделя 26. Роутинг.</a>", "Как повысить эффективность стилизации. Что такое UI библиотека. MaterialUI (это была тема для самостоятельного изучения)"]
   }
 };
-},{}],"zbzq":[function(require,module,exports) {
-
 },{}],"Focm":[function(require,module,exports) {
 "use strict";
 
 var _data = _interopRequireDefault(require("./data.json"));
-require("./style.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 var global_title = '';
 var count = 0;
@@ -339,5 +336,5 @@ document.addEventListener("DOMContentLoaded", function () {
   //Вызов функции первой страницы
   createFirstPage();
 });
-},{"./data.json":"boCh","./style.scss":"zbzq"}]},{},["Focm"], null)
-//# sourceMappingURL=/ChecklistProject/src.02d30289.js.map
+},{"./data.json":"boCh"}]},{},["Focm"], null)
+//# sourceMappingURL=/ChecklistProject/src.ae07c779.js.map

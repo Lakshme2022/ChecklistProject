@@ -1,5 +1,4 @@
 import data from './data.json'
-import './style.scss';
 
 let global_title = ''
 let count = 0;
