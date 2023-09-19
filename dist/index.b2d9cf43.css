@@ -1,0 +1,128 @@
+@media screen and (width <= 767px) {
+  main {
+    width: 90%;
+  }
+}
+
+@media screen and (width >= 768px) and (width <= 1180px) {
+  main {
+    width: 70%;
+  }
+}
+
+@media screen and (width >= 1181px) {
+  main {
+    width: 50%;
+  }
+}
+
+body {
+  background-color: #fadbe3;
+}
+
+main {
+  background-color: #fff;
+  border-radius: 20px;
+  margin: 5% auto auto;
+  padding: 2%;
+  font-family: Jost, sans-serif;
+}
+
+.indent {
+  padding-bottom: 25px;
+}
+
+.range {
+  width: 135px;
+  margin-left: 15px;
+}
+
+.slider {
+  accent-color: #ee445f;
+}
+
+.numbers {
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+}
+
+.pinkText {
+  color: #ee445f;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.form {
+  justify-content: space-around;
+  display: flex;
+}
+
+.inputField {
+  box-shadow: none;
+  background-color: #efebeb;
+  border: none;
+  border-radius: 20px;
+  width: 30%;
+  padding: 12px;
+}
+
+.inputField:focus {
+  outline: 2px solid #ee445f;
+}
+
+.btnField {
+  justify-content: flex-end;
+  display: flex;
+}
+
+button {
+  color: #fff;
+  background-color: #ee445f;
+  border: 2px solid #ee445f;
+  border-radius: 20px;
+  width: 25%;
+  padding: 10px;
+}
+
+button:hover {
+  color: #ee445f;
+  background-color: #fff;
+}
+
+.cardButtons, .wrapperContent {
+  justify-content: space-between;
+  display: flex;
+}
+
+.grid {
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  display: grid;
+}
+
+h2, h3 {
+  text-align: center;
+}
+
+iframe {
+  width: 420px;
+  height: 315px;
+  margin: auto;
+  display: flex;
+}
+
+a {
+  color: #ee445f;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #000;
+}
+
+/*# sourceMappingURL=index.b2d9cf43.css.map */
