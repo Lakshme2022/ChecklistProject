@@ -170,40 +170,43 @@ function createLastPage(){
 
     //перевод результата в проценты
     const percentResult = result * 100/100
+    //определение уровня
+    function level() {
+        if (percentResult<=59){
+            return "\"Новичок\""
+        } else if (percentResult>=60 && percentResult<80){
+            return "\"Стажёр\""
+        } else {
+            return "\"Младший разработчик\""
+        }        
+    }
+    // рекомендации по результату 
+    function conclusion() {
+        if (percentResult<=59){
+            return `<h2>Ты можешь смело искать предложения по стажировке, но повтори перед этим следующие темы, находящиеся по ссылкам ниже:</h2>`
+        } else if (percentResult>=60 && percentResult<80){
+            return `<h2>Перед составлением резюме рекомендую сходить по нижеприведенным ссылкам и повторить темы:</h2>`
+        } else {
+            return `<h2 class="pinkText">Можешь приступать к подготовке к собеседованию!</h2>` + `<iframe src="https://www.youtube.com/embed/cyfaOAH-CF0"></iframe>`
+        } 
+    }
     //отрисовка последней страницы
     const content = document.getElementById('content');
-
-    content.innerHTML = `<h2 class = "pinkText">Отличная работа, поздравляю!</h2>
-            <div class="grid"><h3>Твой результат:</h3><h3 class = "pinkText">${percentResult}%</h3></div>`
-
-    const divLevel = document.createElement('div')
-    divLevel.classList.add("grid")
-    content.append(divLevel)
-    divLevel.insertAdjacentHTML('beforeend',`<h3>что соответсвтвует уровню: </h3>`)
-
-    if (percentResult<=59){
-        divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Новичок"</h3>`)
-        divLevel.insertAdjacentHTML('afterend',`<h2>Ты можешь смело искать предложения по стажировке, но повтори перед этим следующие темы, находящиеся по ссылкам ниже:</h2>`)
-    }
-    else if (percentResult>=60 && percentResult<80){
-        divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Стажёр"</h3>`)
-        divLevel.insertAdjacentHTML('afterend',`<h2>Перед составлением резюме рекомендую сходить по нижеприведенным ссылкам и повторить темы:</h2>`)
-    }
-    else{
-        divLevel.insertAdjacentHTML('beforeend',`<h3 class = "pinkText">"Младший разработчик"</h3>`)
-        divLevel.insertAdjacentHTML('afterend',`<h2>Можешь приступать к подготовке к собеседованию!</h2>
-        <div class="video indent"><iframe src="https://www.youtube.com/embed/cyfaOAH-CF0"></iframe></div>`)
-    }
+    content.innerHTML = `<h2 class="pinkText">Отличная работа, поздравляю!</h2>` +
+            `<div class="grid"><h3>Твой результат:</h3><h3 class="pinkText">${percentResult}%</h3></div>` +
+            `<div class="grid"><h3>что соответсвтвует уровню:</h3><h3 class="pinkText">` + level() + `</h3></div>`+
+            `<div>` + conclusion() + `</div>`
+    
     //создание кнопки для перехода в начало
     const btnStart = document.createElement('button')
     btnStart.textContent = "В начало"
     content.append(btnStart)
 
-    //переход на первую страницу
+    //переход на первую страницу    
     btnStart.addEventListener('click',(e)=>{
         content.innerHTML = ''
         createFirstPage()
-        btnStart.style.display='none'
+        btnStart.style.display="none"
     })
 
     if (percentResult >= 80) return '';

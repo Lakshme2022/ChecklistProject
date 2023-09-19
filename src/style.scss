@@ -123,21 +123,15 @@ button:hover {
   grid-template-columns: 1fr 1fr;
   justify-items: center;
 }
-h2{
+h2,h3{
   text-align: center;
 }
-
-.video {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 
 iframe {
   width: 420px;
   height: 315px;
   margin: auto;
+  display: flex;
 }
 
 a {
